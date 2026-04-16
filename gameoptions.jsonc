@@ -1,0 +1,16 @@
+{
+  "100": {
+    "name": "Niveau de jeu",
+    "values": {
+      "1": {
+        "name": "Renardeau (initiation)",
+        "description": "Seuls les effets des combinaisons à 2 cartes similaires (et 3 différents qui active une paire) sont utilisables. Le coup de résolution détective (4 cartes similaires) reste disponible."
+      },
+      "2": {
+        "name": "Renard (initiés)",
+        "description": "Tous les effets disponibles, y compris les combinaisons à 3 cartes similaires."
+      }
+    },
+    "default": 1
+  }
+}

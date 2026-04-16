@@ -1,0 +1,41 @@
+{
+  "table": {
+    "turns_total": {
+      "id": 10,
+      "name": "Nombre de tours joués",
+      "type": "int"
+    },
+    "reshuffles": {
+      "id": 11,
+      "name": "Nombre de remélanges de la défausse",
+      "type": "int"
+    },
+    "winning_side": {
+      "id": 12,
+      "name": "Camp vainqueur (0 = complices, 1 = détectives)",
+      "type": "int"
+    }
+  },
+  "player": {
+    "combos_played": {
+      "id": 20,
+      "name": "Combinaisons jouées",
+      "type": "int"
+    },
+    "cards_stolen": {
+      "id": 21,
+      "name": "Cartes volées (canne x2)",
+      "type": "int"
+    },
+    "indices_seen": {
+      "id": 22,
+      "name": "Indices consultés",
+      "type": "int"
+    },
+    "roles_seen": {
+      "id": 23,
+      "name": "Rôles consultés",
+      "type": "int"
+    }
+  }
+}
