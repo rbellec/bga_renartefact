@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="cane-wood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b8651a"/>
+      <stop offset="1" stop-color="#703906"/>
+    </linearGradient>
+  </defs>
+  <path d="M 65 15 Q 80 15 80 32 L 80 40 L 68 40 L 68 34 Q 68 26 62 26 Q 56 26 56 34 L 56 88 L 44 88 L 44 34 Q 44 15 58 15 Z" fill="url(#cane-wood)" stroke="#4a2503" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="40" y="55" width="20" height="4" fill="#ffc075" opacity="0.8"/>
+  <rect x="40" y="72" width="20" height="4" fill="#ffc075" opacity="0.6"/>
+</svg>

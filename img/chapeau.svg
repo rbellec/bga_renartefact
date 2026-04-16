@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="hat-body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a1f10"/>
+      <stop offset="1" stop-color="#1a0f07"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="50" cy="72" rx="40" ry="8" fill="url(#hat-body)" stroke="#0a0503" stroke-width="1.5"/>
+  <path d="M 28 72 Q 28 36 34 30 Q 40 24 50 24 Q 60 24 66 30 Q 72 36 72 72 Z" fill="url(#hat-body)" stroke="#0a0503" stroke-width="1.5" stroke-linejoin="round"/>
+  <rect x="28" y="60" width="44" height="8" fill="#b8651a" stroke="#4a2503" stroke-width="1.2"/>
+  <circle cx="60" cy="64" r="2.5" fill="#f9c66c"/>
+  <path d="M 32 30 Q 42 22 50 22" stroke="#4a2a12" stroke-width="1" fill="none" opacity="0.6"/>
+</svg>

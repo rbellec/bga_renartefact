@@ -302,6 +302,17 @@ class Game extends \Bga\GameFramework\Table
             'player_id' => $playerId,
             'hand_count' => count($hand),
         ]);
+        $this->notifyCounts();
+    }
+
+    public function notifyCounts(): void
+    {
+        $this->bga->notify->all('countsUpdate', '', [
+            'deckCount' => $this->cards->countCardInLocation(self::LOC_DECK),
+            'discardCount' => $this->cards->countCardInLocation(self::LOC_DISCARD),
+            'discardTop' => $this->cards->getCardOnTop(self::LOC_DISCARD),
+            'shuffleCounter' => (int)$this->bga->globals->get('shuffle_counter'),
+        ]);
     }
 
     public function doRecoverCache(int $playerId, string $side): void

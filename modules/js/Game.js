@@ -4,12 +4,16 @@ const ART_LABEL = {
     chapeau: _('Chapeau'),
     loupe: _('Loupe'),
 };
-const ART_SYMBOL = {
-    canne: '🦯',
-    sablier: '⏳',
-    chapeau: '🎩',
-    loupe: '🔎',
-};
+
+function artImg(type) {
+    const url = g_gamethemeurl + 'img/' + type + '.svg';
+    return `<img class="rnt-art-img" src="${url}" alt="${type}" draggable="false"/>`;
+}
+function cardBackUrl() { return g_gamethemeurl + 'img/card-back.svg'; }
+function roleImg(role) {
+    const name = role === 'detective' ? 'role-detective' : role === 'complice' ? 'role-complice' : 'role-hidden';
+    return `<img class="rnt-role-img" src="${g_gamethemeurl + 'img/' + name + '.svg'}" alt="${name}" draggable="false"/>`;
+}
 
 class PlayerTurn {
     constructor(game, bga) {
@@ -19,11 +23,12 @@ class PlayerTurn {
 
     onEnteringState(args, isCurrentPlayerActive) {
         this.game.clearSelection();
+        this.game.highlightActivePlayer();
         if (isCurrentPlayerActive) {
-            this.bga.statusBar.setTitle(_('${you} must play a combination, recover a hidden artefact, or discard'));
+            this.bga.statusBar.setTitle(_('À ${you} de jouer : une combinaison, récupérer un artéfact caché, ou défausser'));
             this.game.refreshActionButtons(args);
         } else {
-            this.bga.statusBar.setTitle(_('${actplayer} is playing'));
+            this.bga.statusBar.setTitle(_('${actplayer} joue'));
         }
     }
 
@@ -36,7 +41,7 @@ class ViewIndice {
 
     onEnteringState(args, isCurrentPlayerActive) {
         if (isCurrentPlayerActive) {
-            this.bga.statusBar.setTitle(_('${you} choose an indice to peek at'));
+            this.bga.statusBar.setTitle(_('${you} : choisissez un indice à regarder'));
             document.querySelectorAll('.rnt-indice').forEach(el => {
                 const id = parseInt(el.dataset.id, 10);
                 const available = (args.availableIndices || []).some(x => x.id === id);
@@ -61,7 +66,7 @@ class ViewRole {
 
     onEnteringState(args, isCurrentPlayerActive) {
         if (isCurrentPlayerActive) {
-            this.bga.statusBar.setTitle(_('${you} choose a player to peek at'));
+            this.bga.statusBar.setTitle(_('${you} : choisissez un joueur dont regarder le rôle'));
             (args.availablePlayers || []).forEach(pid => {
                 this.bga.statusBar.addActionButton(
                     this.game.gamedatas.players[pid].name,
@@ -79,7 +84,7 @@ class PickCardFromPlayer {
 
     onEnteringState(args, isCurrentPlayerActive) {
         if (isCurrentPlayerActive) {
-            this.bga.statusBar.setTitle(_('${you} pick a card (blind) from another player'));
+            this.bga.statusBar.setTitle(_('${you} : piochez une carte (à l\'aveugle) chez un autre joueur'));
             (args.targets || []).forEach(t => {
                 for (let i = 0; i < t.hand_count; i++) {
                     this.bga.statusBar.addActionButton(
@@ -104,14 +109,14 @@ class GiveCardBack {
         if (isCurrentPlayerActive) {
             const targetName = this.game.gamedatas.players[args.target]?.name || '?';
             this.bga.statusBar.setTitle(
-                _('${you} may give a card back to ') + targetName
+                _('${you} : vous pouvez rendre une carte à ') + targetName
             );
             this.game.setHandSelectionMode('giveback', (ids) => {
                 if (ids.length === 1) {
                     this.bga.actions.performAction('actGiveBack', { cardId: ids[0] });
                 }
             });
-            this.bga.statusBar.addActionButton(_('Skip (no giveback)'),
+            this.bga.statusBar.addActionButton(_('Passer (ne pas rendre de carte)'),
                 () => this.bga.actions.performAction('actSkipGiveBack'),
                 { color: 'secondary' }
             );
@@ -126,7 +131,7 @@ class PickFromDiscard {
 
     onEnteringState(args, isCurrentPlayerActive) {
         if (isCurrentPlayerActive) {
-            this.bga.statusBar.setTitle(_('${you} pick 2 different artefacts from the discard'));
+            this.bga.statusBar.setTitle(_('${you} : choisissez 2 artéfacts différents dans la défausse'));
             const byType = args.discardByType || {};
             Object.entries(byType).forEach(([type, ids]) => {
                 this.bga.statusBar.addActionButton(
@@ -145,9 +150,9 @@ class ChooseCacheCard {
 
     onEnteringState(args, isCurrentPlayerActive) {
         if (isCurrentPlayerActive) {
-            const side = args.side === 'r' ? _('right') : _('left');
+            const side = args.side === 'r' ? _('droite') : _('gauche');
             this.bga.statusBar.setTitle(
-                _('${you} choose an artefact to hide on the ') + side + _(' cache')
+                _('${you} : choisissez un artéfact à cacher (cachette ') + side + ')'
             );
             this.game.setHandSelectionMode('cache', (ids) => {
                 if (ids.length === 1) {
@@ -228,9 +233,9 @@ export class Game {
             d.dataset.pos = ind.pos;
             if (ind.seen) {
                 d.classList.add('rnt-seen');
-                d.innerHTML = `<div class="rnt-sym">${ART_SYMBOL[ind.type]}</div><div class="rnt-name">${ART_LABEL[ind.type]}</div>`;
+                d.innerHTML = `<div class="rnt-sym">${artImg(ind.type)}</div><div class="rnt-name">${ART_LABEL[ind.type]}</div>`;
             } else {
-                d.innerHTML = `<div class="rnt-back">?</div>`;
+                d.innerHTML = `<img class="rnt-back-img" src="${cardBackUrl()}" draggable="false"/>`;
             }
             el.appendChild(d);
         });
@@ -251,7 +256,7 @@ export class Game {
         if (top) {
             el.innerHTML = `
                 <div class="rnt-card rnt-discard-top">
-                    <div class="rnt-sym">${ART_SYMBOL[top.type] || '?'}</div>
+                    <div class="rnt-sym">${artImg(top.type)}</div>
                     <div class="rnt-name">${ART_LABEL[top.type] || top.type}</div>
                 </div>${countHtml}`;
         } else {
@@ -271,15 +276,16 @@ export class Game {
             el.className = 'rnt-player';
             players.appendChild(el);
         }
-        const roleHtml = state.role
-            ? `<div class="rnt-role rnt-role-${state.role}">${state.role === 'detective' ? _('Détective') : _('Complice')}</div>`
-            : `<div class="rnt-role rnt-role-hidden">?</div>`;
+        const roleHtml = `<div class="rnt-role-wrap rnt-role-${state.role || 'hidden'}">${roleImg(state.role)}</div>`;
+        const cacheHtml = (side, occupied) => occupied
+            ? `<img class="rnt-cache-card" src="${cardBackUrl()}" draggable="false"/>`
+            : '';
         el.innerHTML = `
             <div class="rnt-player-name" style="color:#${p.player_color}">${p.name || p.player_name}${isMe ? ' (' + _('vous') + ')' : ''}</div>
             <div class="rnt-player-row">
-                <div class="rnt-cache-slot rnt-cache-l" data-pid="${pid}" data-side="l">${state.cache_l ? '🎩' : ''}</div>
+                <div class="rnt-cache-slot rnt-cache-l" data-pid="${pid}" data-side="l" title="${_('Cachette gauche')}">${cacheHtml('l', state.cache_l)}</div>
                 ${roleHtml}
-                <div class="rnt-cache-slot rnt-cache-r" data-pid="${pid}" data-side="r">${state.cache_r ? '🎩' : ''}</div>
+                <div class="rnt-cache-slot rnt-cache-r" data-pid="${pid}" data-side="r" title="${_('Cachette droite')}">${cacheHtml('r', state.cache_r)}</div>
             </div>
             <div class="rnt-hand-count">${_('Main:')} <span class="rnt-count-${pid}">${state.hand_count || 0}</span></div>
         `;
@@ -301,10 +307,10 @@ export class Game {
         el.innerHTML = '';
         (this.gamedatas.hand || []).forEach(c => {
             const d = document.createElement('div');
-            d.className = 'rnt-card rnt-hand-card';
+            d.className = 'rnt-card rnt-hand-card rnt-type-' + c.type;
             d.dataset.id = c.id;
             d.dataset.type = c.type;
-            d.innerHTML = `<div class="rnt-sym">${ART_SYMBOL[c.type]}</div><div class="rnt-name">${ART_LABEL[c.type]}</div>`;
+            d.innerHTML = `<div class="rnt-sym">${artImg(c.type)}</div><div class="rnt-name">${ART_LABEL[c.type]}</div>`;
             d.onclick = () => this.toggleCardSelection(parseInt(c.id, 10));
             el.appendChild(d);
         });
@@ -421,8 +427,25 @@ export class Game {
         }
     }
 
+    highlightActivePlayer() {
+        const active = parseInt(this.bga.gameui?.gamedatas?.gamestate?.active_player || 0, 10);
+        document.querySelectorAll('.rnt-player').forEach(el => {
+            const pid = parseInt(el.id.replace('rnt-player-', ''), 10);
+            el.classList.toggle('rnt-active-player', pid === active);
+        });
+    }
+
     async notif_comboPlayed(args) {
         this.gamedatas.discardCount = (parseInt(this.gamedatas.discardCount, 10) || 0) + parseInt(args.count, 10);
+        this.renderDiscard();
+    }
+
+    async notif_countsUpdate(args) {
+        this.gamedatas.deckCount = parseInt(args.deckCount, 10);
+        this.gamedatas.discardCount = parseInt(args.discardCount, 10);
+        this.gamedatas.discardTop = args.discardTop || null;
+        this.gamedatas.shuffleCounter = parseInt(args.shuffleCounter, 10);
+        this.renderDeck();
         this.renderDiscard();
     }
 
@@ -446,12 +469,7 @@ export class Game {
             const span = document.querySelector('.rnt-count-' + pid);
             if (span) span.textContent = args.hand_count;
         }
-        this.gamedatas.deckCount = parseInt(
-            (await this.fetchDeckCount()) ?? this.gamedatas.deckCount, 10
-        );
     }
-
-    async fetchDeckCount() { return null; }
 
     async notif_mandatoryDiscard(args) {
         this.gamedatas.discardCount = parseInt(args.discardCount, 10);
@@ -525,7 +543,7 @@ export class Game {
         if (args.stolen) {
             const banner = document.createElement('div');
             banner.className = 'rnt-reveal-banner';
-            banner.innerHTML = _('Artéfact volé: ') + ART_SYMBOL[args.stolen] + ' ' + ART_LABEL[args.stolen];
+            banner.innerHTML = _('Artéfact volé : ') + artImg(args.stolen) + ' ' + ART_LABEL[args.stolen];
             document.getElementById('rnt-board').prepend(banner);
         }
     }

@@ -52,19 +52,10 @@
     transition: transform 0.12s ease, border-color 0.12s ease;
 }
 
-.rnt-card .rnt-sym { font-size: 32px; line-height: 1; }
+.rnt-card .rnt-sym { line-height: 1; display: flex; align-items: center; justify-content: center; }
+.rnt-card .rnt-art-img { width: 50px; height: 50px; pointer-events: none; }
 .rnt-card .rnt-name { font-size: 11px; margin-top: 4px; }
-.rnt-card .rnt-back {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 36px;
-    color: #fff;
-    background: repeating-linear-gradient(45deg, #8b3a14, #8b3a14 10px, #6a2a0a 10px, #6a2a0a 20px);
-    border-radius: 6px;
-}
+.rnt-card .rnt-back-img { width: 100%; height: 100%; border-radius: 6px; pointer-events: none; }
 
 .rnt-pile {
     position: relative;
@@ -117,6 +108,13 @@
     padding: 10px;
     background: #faf7f2;
     min-width: 220px;
+    transition: all 0.2s ease;
+}
+
+.rnt-player.rnt-active-player {
+    border-color: #ff9a4a;
+    box-shadow: 0 0 0 3px #ff9a4a, 0 4px 8px rgba(255,154,74,0.4);
+    background: #fff8ed;
 }
 
 .rnt-player-name {
@@ -133,36 +131,41 @@
 }
 
 .rnt-cache-slot {
-    width: 40px;
-    height: 60px;
+    width: 48px;
+    height: 68px;
     border: 2px dashed #888;
     border-radius: 6px;
     background: #f0e6d2;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
     cursor: pointer;
+    overflow: hidden;
 }
 
-.rnt-role {
-    flex: 1;
-    height: 60px;
-    border: 2px solid #444;
-    border-radius: 6px;
+.rnt-cache-slot .rnt-cache-card {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.rnt-role-wrap {
+    width: 56px;
+    height: 78px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
-    font-size: 12px;
-    color: #fff;
 }
 
-.rnt-role-hidden {
-    background: repeating-linear-gradient(45deg, #333, #333 8px, #222 8px, #222 16px);
+.rnt-role-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 4px;
+    pointer-events: none;
 }
-.rnt-role-detective { background: #2a6aa8; }
-.rnt-role-complice { background: #a82a2a; }
 
 .rnt-hand-count {
     font-size: 12px;

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="hg-sand" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f9c66c"/>
+      <stop offset="1" stop-color="#d98a2b"/>
+    </linearGradient>
+  </defs>
+  <rect x="22" y="10" width="56" height="6" rx="2" fill="#703906"/>
+  <rect x="22" y="84" width="56" height="6" rx="2" fill="#703906"/>
+  <path d="M 28 16 L 72 16 L 72 28 Q 72 36 55 48 L 55 52 Q 72 64 72 72 L 72 84 L 28 84 L 28 72 Q 28 64 45 52 L 45 48 Q 28 36 28 28 Z" fill="#fff8ed" stroke="#4a2503" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M 32 18 L 68 18 L 68 28 Q 68 32 52 44 L 48 44 Q 32 32 32 28 Z" fill="url(#hg-sand)"/>
+  <path d="M 45 62 L 55 62 L 60 82 L 40 82 Z" fill="url(#hg-sand)"/>
+  <line x1="50" y1="46" x2="50" y2="62" stroke="#d98a2b" stroke-width="1.5" stroke-dasharray="2 2"/>
+</svg>

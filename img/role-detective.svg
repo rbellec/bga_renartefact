@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 140" fill="none">
+  <defs>
+    <linearGradient id="det-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2a6aa8"/>
+      <stop offset="1" stop-color="#0f3a65"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="100" height="140" rx="8" fill="url(#det-bg)"/>
+  <rect x="6" y="6" width="88" height="128" rx="6" fill="none" stroke="#e8f0ff" stroke-width="1.5" opacity="0.7"/>
+  <g transform="translate(50 58)">
+    <path d="M -22 -10 Q -16 -30 -2 -22 Q 0 -24 2 -22 Q 16 -30 22 -10 Q 26 10 14 22 Q 0 30 -14 22 Q -26 10 -22 -10 Z" fill="#f4d090"/>
+    <path d="M -12 -12 Q -8 -16 -4 -14" stroke="#1a0f07" stroke-width="1" fill="none"/>
+    <ellipse cx="8" cy="-8" rx="4.5" ry="3" fill="#1a0f07"/>
+    <ellipse cx="-8" cy="-8" rx="4.5" ry="3" fill="#fff"/>
+    <circle cx="-8" cy="-8" r="2" fill="#1a0f07"/>
+    <path d="M -4 6 Q 0 10 4 6" stroke="#1a0f07" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  </g>
+  <text x="50" y="110" font-family="Georgia, serif" font-size="14" fill="#fff" text-anchor="middle" font-weight="bold" letter-spacing="1">DÉTECTIVE</text>
+  <text x="50" y="124" font-family="Georgia, serif" font-size="7" fill="#cde0f5" text-anchor="middle" font-style="italic">Trouvez l'artéfact volé</text>
+</svg>
