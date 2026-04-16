@@ -18,8 +18,7 @@ class TurnStart extends GameState
     {
         $this->game->bga->globals->set('needs_draw_at_turn_start', false);
         $this->game->bga->globals->set('combo_played_this_turn', false);
-        $this->game->bga->globals->set('triple_played_this_turn', false);
-        $this->game->bga->globals->set('different_played_this_turn', false);
+        $this->game->bga->globals->set('three_card_played_this_turn', false);
         $this->game->bga->tableStats->inc('turns_total', 1);
 
         $have = count($this->game->cards->getCardsInLocation(Game::LOC_HAND, $activePlayerId));

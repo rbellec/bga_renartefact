@@ -219,6 +219,7 @@ export class Game {
 
         Object.values(gamedatas.players).forEach(p => this.renderPlayer(p.id));
         this.renderHand();
+        this.highlightActivePlayer();
 
         this.bga.notifications.setupPromiseNotifications({});
     }

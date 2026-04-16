@@ -20,8 +20,7 @@ class NextPlayer extends GameState
         $this->game->activeNextPlayer();
         $this->game->bga->globals->set('needs_draw_at_turn_start', true);
         $this->game->bga->globals->set('combo_played_this_turn', false);
-        $this->game->bga->globals->set('triple_played_this_turn', false);
-        $this->game->bga->globals->set('different_played_this_turn', false);
+        $this->game->bga->globals->set('three_card_played_this_turn', false);
         return TurnStart::class;
     }
 }

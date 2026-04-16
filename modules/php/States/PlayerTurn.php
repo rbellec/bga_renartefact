@@ -66,7 +66,7 @@ class PlayerTurn extends GameState
         if ($this->game->getLevel() !== Game::LEVEL_RENARD) {
             throw new UserException("Les combinaisons à 3 cartes similaires sont réservées au niveau Renard");
         }
-        if ($this->game->bga->globals->get('combo_played_this_turn') && $this->game->bga->globals->get('triple_played_this_turn')) {
+        if ($this->game->bga->globals->get('three_card_played_this_turn')) {
             throw new UserException("Une seule combinaison à 3 cartes par tour");
         }
         $cards = $this->game->validateSimilarCards($playerId, $cardIds, 3);
@@ -77,7 +77,7 @@ class PlayerTurn extends GameState
         $this->game->discardCards($cardIds);
         $this->game->bga->playerStats->inc('combos_played', 1, $playerId);
         $this->game->bga->globals->set('combo_played_this_turn', true);
-        $this->game->bga->globals->set('triple_played_this_turn', true);
+        $this->game->bga->globals->set('three_card_played_this_turn', true);
 
         $this->game->bga->notify->all('comboPlayed', clienttranslate('${player_name} plays 3 × ${type_label}'), [
             'player_id' => $playerId,
@@ -97,8 +97,8 @@ class PlayerTurn extends GameState
     public function actPlayDifferent(#[IntArrayParam] array $cardIds): string
     {
         $playerId = (int)$this->game->getActivePlayerId();
-        if ($this->game->bga->globals->get('different_played_this_turn')) {
-            throw new UserException("La combinaison « 3 différents » est limitée à une fois par tour");
+        if ($this->game->bga->globals->get('three_card_played_this_turn')) {
+            throw new UserException("Une seule combinaison à 3 cartes par tour");
         }
         $cards = $this->game->validateDifferentCards($playerId, $cardIds, 3);
         $types = array_column($cards, 'type');
@@ -118,7 +118,7 @@ class PlayerTurn extends GameState
         $this->game->discardCards($cardIds);
         $this->game->bga->playerStats->inc('combos_played', 1, $playerId);
         $this->game->bga->globals->set('combo_played_this_turn', true);
-        $this->game->bga->globals->set('different_played_this_turn', true);
+        $this->game->bga->globals->set('three_card_played_this_turn', true);
 
         $this->game->bga->notify->all('comboPlayed', clienttranslate('${player_name} plays 3 different artefacts (missing: ${type_label}) — triggers the pair effect'), [
             'player_id' => $playerId,

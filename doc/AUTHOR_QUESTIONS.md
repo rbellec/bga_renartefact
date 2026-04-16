@@ -153,3 +153,54 @@ fait le zombie ? Options :
 - Joue un 2-combo aléatoire si applicable, sinon défausse.
 
 > Assumé : **défausse aléatoire** (choix simple et neutre).
+
+## Q17 — Récupération d'une cachette hors de son tour 🟠 BGA `[H4]`
+
+La règle autorise la récupération d'un artéfact caché **même pendant le
+tour d'un autre joueur**. En v1 sur BGA, la récupération est restreinte au
+tour du propriétaire (state `PlayerTurn` du joueur actif).
+
+**Impact** : un détective ne peut pas dégainer un artéfact en réaction à
+une tentative de vol par un complice.
+
+**Piste v2** : utiliser un état `MULTIPLE_ACTIVE_PLAYER` en arrière-plan
+qui écoute sur toute la durée, ou des hooks entre tours.
+
+> Divergence documentée, à prioriser selon retours de playtest.
+
+## Q18 — « Une seule fois par tour » : 3 similaires et 3 différents 🟢 RULES-IMPLICIT
+
+Les deux combinaisons à 3 cartes (3 similaires niveau Renard, ou 3
+différents) partagent la limite « une fois par tour ». Confirmation : il
+s'agit de la même limite (une seule combinaison à 3 cartes, quelle
+qu'elle soit, par tour) et pas de deux limites indépendantes.
+
+> Implémentation : drapeau unique `three_card_played_this_turn`.
+
+---
+
+## Résultats de tests automatisés en browser
+
+Validé manuellement sur 2 tables hotseat 4 joueurs (niveau Renardeau) :
+
+| Test | Résultat |
+|------|----------|
+| Setup : rôles distribués, 5 cartes/main, 3 indices, 1 volé caché | ✅ |
+| Premier joueur tiré au hasard | ✅ |
+| **2 sabliers** — piocher 1 carte | ✅ |
+| **2 loupes** — voir 1 indice (mémoire par joueur) | ✅ |
+| **2 cannes** — voler 1 carte à l'aveugle, donner en retour optionnel | ✅ |
+| **2 chapeaux** — cacher un artéfact en cachette gauche | ✅ |
+| **3 différents** — active l'effet de la paire manquante | ✅ |
+| **Récupération de cachette** (propre tour uniquement) | ✅ |
+| **Défausse obligatoire** si aucun combo joué | ✅ |
+| **Résolution détective** (4 cartes similaires) — faux → complices gagnent | ✅ |
+| **Reshuffle** (pioche vide + compteur > 0) | ✅ |
+| **Épuisement définitif** (compteur à 0 + pioche vide) → complices gagnent | ✅ |
+| **Révélation finale** : rôles + artéfact volé | ✅ |
+
+Non testé en browser, vérifié par revue de code :
+- Combos niveau Renard (3 similaires, loupe 3 → rôle, canne 3 → défausse)
+- Tentative de complice de faire la résolution 4 cartes (serveur rejette)
+- Flow de récupération de défausse (canne 3)
+
