@@ -113,7 +113,7 @@ class PlayerTurn extends GameState
             throw new UserException("Type manquant introuvable");
         }
 
-        $this->checkPairApplicable($playerId, $missing);
+        $this->checkPairApplicable($playerId, $missing, 3);
 
         $this->game->discardCards($cardIds);
         $this->game->bga->playerStats->inc('combos_played', 1, $playerId);
@@ -266,7 +266,7 @@ class PlayerTurn extends GameState
         return PlayerTurn::class;
     }
 
-    private function checkPairApplicable(int $playerId, string $type): void
+    private function checkPairApplicable(int $playerId, string $type, int $cardsInFlight = 2): void
     {
         switch ($type) {
             case Game::ART_LOUPE:
@@ -292,7 +292,7 @@ class PlayerTurn extends GameState
                     throw new UserException("La cachette gauche est déjà occupée");
                 }
                 $handCount = count($this->game->cards->getCardsInLocation(Game::LOC_HAND, $playerId));
-                if ($handCount < 3) {
+                if ($handCount < $cardsInFlight + 1) {
                     throw new UserException("Il vous faut au moins 1 autre carte à cacher");
                 }
                 break;
