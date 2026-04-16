@@ -26,13 +26,9 @@ class TurnStart extends GameState
         if ($have < 5) {
             $this->game->drawUpTo($activePlayerId, 5);
             $this->game->notifyHandUpdate($activePlayerId);
-            $after = count($this->game->cards->getCardsInLocation(Game::LOC_HAND, $activePlayerId));
-            if ($after < 5
-                && (int)$this->game->cards->countCardInLocation(Game::LOC_DECK) === 0
-                && (int)$this->game->bga->globals->get('shuffle_counter') <= 0) {
-                $this->game->endGameWithWinner('complice', 'deck_exhausted');
-                return EndScore::class;
-            }
+        }
+        if ($this->game->isGameEnded()) {
+            return EndScore::class;
         }
         return PlayerTurn::class;
     }

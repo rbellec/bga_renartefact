@@ -246,7 +246,7 @@ class Game extends \Bga\GameFramework\Table
     {
         $drawn = [];
         for ($i = 0; $i < $nbr; $i++) {
-            if ($this->cards->countCardInLocation(self::LOC_DECK) === 0) {
+            if ((int)$this->cards->countCardInLocation(self::LOC_DECK) <= 0) {
                 if (!$this->tryReshuffle($playerId)) {
                     return $drawn;
                 }
@@ -274,6 +274,7 @@ class Game extends \Bga\GameFramework\Table
         $counter = (int)$this->bga->globals->get('shuffle_counter');
         if ($counter <= 0) {
             $this->bga->globals->set('complices_win_deck', true);
+            $this->endGameWithWinner('complice', 'deck_exhausted');
             return false;
         }
         $this->cards->moveAllCardsInLocation(self::LOC_DISCARD, self::LOC_DECK);
@@ -447,6 +448,10 @@ class Game extends \Bga\GameFramework\Table
 
     public function endGameWithWinner(string $side, string $reason): void
     {
+        if ($this->bga->globals->get('game_ended')) {
+            return;
+        }
+        $this->bga->globals->set('game_ended', true);
         $winningSide = $side === 'detective' ? 1 : 0;
         $this->bga->tableStats->set('winning_side', $winningSide);
         foreach ($this->loadPlayersBasicInfos() as $pid => $_info) {
@@ -458,6 +463,11 @@ class Game extends \Bga\GameFramework\Table
         $this->bga->globals->set('end_reason', $reason);
         $this->bga->globals->set('winning_side', $side);
         $this->revealAllRoles();
+    }
+
+    public function isGameEnded(): bool
+    {
+        return (bool)$this->bga->globals->get('game_ended');
     }
 
     public function revealAllRoles(): void

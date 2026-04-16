@@ -233,6 +233,38 @@ class PlayerTurn extends GameState
         return NextPlayer::class;
     }
 
+    #[PossibleAction]
+    public function actDebugSetHand(#[StringParam(enum: ['canne', 'sablier', 'chapeau', 'loupe'])] string $type): string
+    {
+        $playerId = (int)$this->game->getActivePlayerId();
+        $hand = array_values($this->game->cards->getPlayerHand($playerId));
+        foreach ($hand as $c) {
+            $this->game->cards->moveCard((int)$c['id'], Game::LOC_DISCARD);
+        }
+        $fromDeck = $this->game->cards->getCardsOfTypeInLocation($type, null, Game::LOC_DECK);
+        $fromDiscard = $this->game->cards->getCardsOfTypeInLocation($type, null, Game::LOC_DISCARD);
+        $pool = array_merge(array_values($fromDeck), array_values($fromDiscard));
+        $count = 0;
+        foreach ($pool as $c) {
+            if ($count >= 4) break;
+            $this->game->cards->moveCard((int)$c['id'], Game::LOC_HAND, $playerId);
+            $count++;
+        }
+        $this->game->notifyHandUpdate($playerId);
+        return PlayerTurn::class;
+    }
+
+    #[PossibleAction]
+    public function actDebugExhaustDeck(): string
+    {
+        $cards = $this->game->cards->getCardsInLocation(Game::LOC_DECK);
+        foreach ($cards as $c) {
+            $this->game->cards->moveCard((int)$c['id'], Game::LOC_DISCARD);
+        }
+        $this->game->notifyCounts();
+        return PlayerTurn::class;
+    }
+
     private function checkPairApplicable(int $playerId, string $type): void
     {
         switch ($type) {
@@ -242,9 +274,9 @@ class PlayerTurn extends GameState
                 }
                 break;
             case Game::ART_SABLIER:
-                if ($this->game->cards->countCardInLocation(Game::LOC_DECK) === 0
+                if ((int)$this->game->cards->countCardInLocation(Game::LOC_DECK) <= 0
                     && (int)$this->game->bga->globals->get('shuffle_counter') <= 0
-                    && $this->game->cards->countCardInLocation(Game::LOC_DISCARD) === 0) {
+                    && (int)$this->game->cards->countCardInLocation(Game::LOC_DISCARD) <= 0) {
                     throw new UserException("Plus de cartes à piocher");
                 }
                 break;
@@ -305,6 +337,7 @@ class PlayerTurn extends GameState
             case Game::ART_SABLIER:
                 $this->game->drawIntoHand($playerId, 1);
                 $this->game->notifyHandUpdate($playerId);
+                if ($this->game->isGameEnded()) return EndScore::class;
                 return PlayerTurn::class;
             case Game::ART_LOUPE:
                 $this->game->bga->globals->set('pending_effect', 'view_indice');
@@ -326,6 +359,7 @@ class PlayerTurn extends GameState
             case Game::ART_SABLIER:
                 $this->game->drawUpTo($playerId, 5);
                 $this->game->notifyHandUpdate($playerId);
+                if ($this->game->isGameEnded()) return EndScore::class;
                 return PlayerTurn::class;
             case Game::ART_LOUPE:
                 return ViewRole::class;
