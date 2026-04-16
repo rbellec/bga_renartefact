@@ -71,4 +71,9 @@ class ViewRole extends GameState
         ]);
         return PlayerTurn::class;
     }
+
+    function zombie(int $playerId)
+    {
+        return NextPlayer::class;
+    }
 }

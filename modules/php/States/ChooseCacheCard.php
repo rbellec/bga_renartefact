@@ -55,4 +55,10 @@ class ChooseCacheCard extends GameState
         $this->game->bga->globals->set('pending_cache_side', '');
         return PlayerTurn::class;
     }
+
+    function zombie(int $playerId)
+    {
+        $this->game->bga->globals->set('pending_cache_side', '');
+        return NextPlayer::class;
+    }
 }

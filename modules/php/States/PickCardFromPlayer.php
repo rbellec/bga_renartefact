@@ -64,4 +64,9 @@ class PickCardFromPlayer extends GameState
         $this->game->bga->globals->set('canne2_target', $targetPlayerId);
         return GiveCardBack::class;
     }
+
+    function zombie(int $playerId)
+    {
+        return NextPlayer::class;
+    }
 }

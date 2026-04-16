@@ -119,12 +119,13 @@ class Game extends \Bga\GameFramework\Table
         $this->bga->tableStats->init('turns_total', 0);
         $this->bga->tableStats->init('reshuffles', 0);
         $this->bga->tableStats->init('winning_side', 0);
-        foreach ($playerIds as $pid) {
-            $this->bga->playerStats->init('combos_played', 0, $pid);
-            $this->bga->playerStats->init('cards_stolen', 0, $pid);
-            $this->bga->playerStats->init('indices_seen', 0, $pid);
-            $this->bga->playerStats->init('roles_seen', 0, $pid);
-        }
+        $this->bga->playerStats->init('combos_played', 0);
+        $this->bga->playerStats->init('cards_stolen', 0);
+        $this->bga->playerStats->init('indices_seen', 0);
+        $this->bga->playerStats->init('roles_seen', 0);
+
+        $firstPlayerId = (int)$playerIds[array_rand($playerIds)];
+        $this->gamestate->changeActivePlayer($firstPlayerId);
 
         return TurnStart::class;
     }
@@ -339,7 +340,7 @@ class Game extends \Bga\GameFramework\Table
         if (count($unique) !== $expected) {
             throw new \Bga\GameFramework\UserException("Cartes dupliquées");
         }
-        $cards = $this->cards->getCardsFromLocation($cardIds, self::LOC_HAND, $playerId);
+        $cards = array_values($this->cards->getCardsFromLocation($cardIds, self::LOC_HAND, $playerId));
         if (count($cards) !== $expected) {
             throw new \Bga\GameFramework\UserException("Certaines cartes ne sont pas dans votre main");
         }
@@ -366,7 +367,7 @@ class Game extends \Bga\GameFramework\Table
         if (count($unique) !== $expected) {
             throw new \Bga\GameFramework\UserException("Cartes dupliquées");
         }
-        $cards = $this->cards->getCardsFromLocation($cardIds, self::LOC_HAND, $playerId);
+        $cards = array_values($this->cards->getCardsFromLocation($cardIds, self::LOC_HAND, $playerId));
         if (count($cards) !== $expected) {
             throw new \Bga\GameFramework\UserException("Certaines cartes ne sont pas dans votre main");
         }

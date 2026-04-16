@@ -53,4 +53,9 @@ class PickFromDiscard extends GameState
         $this->game->notifyHandUpdate($playerId);
         return PlayerTurn::class;
     }
+
+    function zombie(int $playerId)
+    {
+        return NextPlayer::class;
+    }
 }

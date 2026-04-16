@@ -57,4 +57,10 @@ class GiveCardBack extends GameState
         $this->game->bga->globals->set('canne2_target', 0);
         return PlayerTurn::class;
     }
+
+    function zombie(int $playerId)
+    {
+        $this->game->bga->globals->set('canne2_target', 0);
+        return NextPlayer::class;
+    }
 }

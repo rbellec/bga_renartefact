@@ -331,7 +331,7 @@ export class Game {
             return;
         }
 
-        if (this.bga.states?.getCurrentState() === 'PlayerTurn') {
+        if (this.bga.states?.currentStateName === 'PlayerTurn') {
             this.refreshActionButtons(this.bga.gameui.gamedatas?.gamestate?.args || {});
         }
     }
