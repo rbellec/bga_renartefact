@@ -1,0 +1,214 @@
+#rnt-board {
+    padding: 10px;
+    font-family: system-ui, sans-serif;
+}
+
+#rnt-top {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#rnt-center {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+#rnt-indices-box, #rnt-deck-box, #rnt-discard-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+#rnt-indices {
+    display: flex;
+    gap: 8px;
+}
+
+.rnt-label {
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #555;
+    letter-spacing: 0.5px;
+}
+
+.rnt-card {
+    width: 70px;
+    height: 100px;
+    border: 2px solid #6a3a1a;
+    border-radius: 8px;
+    background: #fff4e3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+    cursor: default;
+    user-select: none;
+    transition: transform 0.12s ease, border-color 0.12s ease;
+}
+
+.rnt-card .rnt-sym { font-size: 32px; line-height: 1; }
+.rnt-card .rnt-name { font-size: 11px; margin-top: 4px; }
+.rnt-card .rnt-back {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    color: #fff;
+    background: repeating-linear-gradient(45deg, #8b3a14, #8b3a14 10px, #6a2a0a 10px, #6a2a0a 20px);
+    border-radius: 6px;
+}
+
+.rnt-pile {
+    position: relative;
+    width: 70px;
+    height: 100px;
+    border: 2px solid #6a3a1a;
+    border-radius: 8px;
+    background: repeating-linear-gradient(45deg, #8b3a14, #8b3a14 10px, #6a2a0a 10px, #6a2a0a 20px);
+}
+
+.rnt-pile-count {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.rnt-discard-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.95;
+}
+
+#rnt-shuffle-counter {
+    background: #ff9a4a;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#rnt-players {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.rnt-player {
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background: #faf7f2;
+    min-width: 220px;
+}
+
+.rnt-player-name {
+    font-weight: bold;
+    margin-bottom: 6px;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.rnt-player-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.rnt-cache-slot {
+    width: 40px;
+    height: 60px;
+    border: 2px dashed #888;
+    border-radius: 6px;
+    background: #f0e6d2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.rnt-role {
+    flex: 1;
+    height: 60px;
+    border: 2px solid #444;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+    color: #fff;
+}
+
+.rnt-role-hidden {
+    background: repeating-linear-gradient(45deg, #333, #333 8px, #222 8px, #222 16px);
+}
+.rnt-role-detective { background: #2a6aa8; }
+.rnt-role-complice { background: #a82a2a; }
+
+.rnt-hand-count {
+    font-size: 12px;
+    color: #555;
+}
+
+#rnt-myhand-box {
+    border-top: 2px solid #ccc;
+    padding-top: 10px;
+}
+
+#rnt-myhand {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    min-height: 100px;
+}
+
+.rnt-hand-card { cursor: pointer; }
+.rnt-hand-card:hover { transform: translateY(-4px); border-color: #ff9a4a; }
+.rnt-hand-card.rnt-selected {
+    border-color: #ff9a4a;
+    box-shadow: 0 0 0 3px #ff9a4a, 0 4px 6px rgba(0,0,0,0.2);
+    transform: translateY(-6px);
+}
+
+.rnt-selectable {
+    cursor: pointer;
+    border-color: #ff9a4a;
+    box-shadow: 0 0 0 2px #ff9a4a;
+}
+
+.rnt-empty {
+    background: #eee;
+    color: #999;
+    border-style: dashed;
+    font-size: 32px;
+}
+
+.rnt-reveal-banner {
+    background: #ff9a4a;
+    color: #fff;
+    padding: 12px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 6px;
+    margin-bottom: 12px;
+}
