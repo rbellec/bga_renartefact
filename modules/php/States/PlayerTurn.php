@@ -233,6 +233,7 @@ class PlayerTurn extends GameState
         return NextPlayer::class;
     }
 
+    // TODO remove before release — debug actions for test scenarios
     #[PossibleAction]
     public function actDebugSetHand(#[StringParam(enum: ['canne', 'sablier', 'chapeau', 'loupe'])] string $type): string
     {
